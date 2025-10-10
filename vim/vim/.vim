@@ -1,1 +1,0 @@
-/home/dante999/.vim
