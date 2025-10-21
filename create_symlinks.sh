@@ -1,30 +1,30 @@
 #!/bin/bash
 
-readonly dotfiles=(\
-	'vim/vim' \
-	'vim/vimrc' \
-	'tmux/tmux.conf' \
-)
+set -o errexit
+set -o nounset
 
+declare -A symlink_map
 
-for f in "${dotfiles[@]}"; do
-	echo "==> ${f}"
-	src="${PWD}/${f}"
-	symlink="${HOME}/.${src##*/}"
+symlink_map["vim/vim"]="${HOME}/.vim"
+symlink_map["vim/vimrc"]="${HOME}/.vimrc"
+symlink_map["nvim"]="${HOME}/.config/nvim"
 
-	if [[ -e ${symlink} || -h ${symlink} ]]; then
-		echo -n "    file ${symlink} already exists. Replace? [y/n]: "
+for key in "${!symlink_map[@]}"; do
+	symlink_source="${PWD}/${key}"
+	symlink_file="${symlink_map[${key}]}"
+
+	if [[ -e ${symlink_file} || -L ${symlink_file} ]]; then
+		echo -n "    file ${symlink_file} already exists. Replace? [y/n]: "
 		read -r ans
 
 		if [[ "${ans}" == "y" ]]; then
-			echo "    deleting ${symlink}"
-			rm -r ${symlink}
-			echo "    creating symlink ${symlink} -> ${src}"
-			ln -s ${src} ${symlink}
+			echo "    deleting ${symlink_file}"
+			rm -r ${symlink_file}
+			echo "    creating symlink ${symlink_file} -> ${symlink_source}"
+			ln -s ${symlink_source} ${symlink_file}
 		fi
 	else
-			echo "    creating symlink ${symlink} -> ${src}"
-			ln -s ${src} ${symlink}
+		echo "    creating symlink ${symlink_file} -> ${symlink_source}"
+		ln -s ${symlink_source} ${symlink_file}
 	fi
 done
-
