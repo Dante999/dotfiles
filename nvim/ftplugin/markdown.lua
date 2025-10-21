@@ -1,4 +1,4 @@
-local opt = vim.bo
+local opt = vim.opt_local
 
 opt.textwidth = 80
 opt.colorcolumn = 81

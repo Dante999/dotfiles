@@ -1,4 +1,4 @@
-local opt = vim.bo
+local opt = vim.opt_local
 
 opt.syntax = "sh"
 opt.tabstop = 4
