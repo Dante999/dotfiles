@@ -15,3 +15,7 @@ opt.listchars = {
 	precedes = "❮", -- when a line continues left of the window
 	nbsp = "␣", -- non‑breaking spaces (optional)
 }
+
+-- Disable format on save
+-- Undo LazyVim default: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua#L6
+vim.g.autoformat = false
